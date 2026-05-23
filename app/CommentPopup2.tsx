@@ -16,24 +16,28 @@ type CommentPopup2Props = {
 
 function CommentList({ videoId }: { videoId: string }) {
   const initialComments = use(fetchCommentsById(videoId));
+
   const [commentState, setComments] = useState(initialComments);
-  const nextCursor = initialComments.nextCursor
+  const nextCursor = commentState.nextCursor
 
   const [isPending, startTransition] = useTransition();
 
   const loadMore = () => {
+    console.log("load more", nextCursor);
     if (!nextCursor) {
       return;
     }
 
     startTransition(async () => {
       const nextPage = await fetchCommentsById(videoId, nextCursor);
-      const newComments = { comments: [...commentState.comments, ...nextPage.comments], nextCursor: nextPage.nextCursor };
 
       // React currently requires wrapping any set functions after the await in an additional startTransition
       // https://react.dev/reference/react/useTransition#react-doesnt-treat-my-state-update-after-await-as-a-transition
       startTransition(() => {
-        setComments(newComments);
+        setComments((current) => ({
+          comments: [...current.comments, ...nextPage.comments],
+          nextCursor: nextPage.nextCursor,
+        }));
       });
     });
   };

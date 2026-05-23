@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CommentPopup } from "./CommentPopup";
+import { CommentPopup2 } from "./CommentPopup2";
 
 export default function Page() {
   const [isOpen, setOpen] = useState(false);
@@ -11,7 +11,7 @@ export default function Page() {
       <button type="button" onClick={() => setOpen((open) => !open)}>
         {isOpen ? "Close" : "Open"}
       </button>
-      <CommentPopup open={isOpen} />
+      <CommentPopup2 open={isOpen} videoId="video-1" />
     </main>
   );
 }
