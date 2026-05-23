@@ -1,9 +1,17 @@
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { CommentPopup } from "./CommentPopup";
+
+export default function Page() {
+  const [isOpen, setOpen] = useState(false);
+
   return (
-    <main >
-      <h1>SNS comments experiment</h1>
-      <p>Build your comment UI here.</p>
+    <main>
+      <button type="button" onClick={() => setOpen((open) => !open)}>
+        {isOpen ? "Close" : "Open"}
+      </button>
+      <CommentPopup open={isOpen} />
     </main>
   );
 }
